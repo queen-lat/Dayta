@@ -1,10 +1,5 @@
-import Header from "@/components/Header";
-import Image from "next/image";
+import { redirect } from "next/navigation";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export default function Home() {
+  redirect("/login");
 }
-export default page
-
