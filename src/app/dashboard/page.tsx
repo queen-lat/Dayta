@@ -52,17 +52,24 @@ export default function DashboardPage() {
           </div>
 
           {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            <DataCard Name="MTN" Link="/dashboard/mtn-retail" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto ">
             <DataCard
               Name="AirtelTigo"
               Link="/dashboard/AT-retail"
               Image="/at.png"
+              available={true}
             />
+            <DataCard
+              Name="MTN"
+              Link="/dashboard/mtn-retail"
+              available={false}
+            />
+
             <DataCard
               Name="Telecel"
               Link="/dashboard/telecel-retail"
               Image="/tele.png"
+              available={false}
             />
           </div>
         </div>
