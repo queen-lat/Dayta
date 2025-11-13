@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
-
-@custom-variant dark (&:is(.dark *));
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -119,4 +123,31 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes liquids {
+  0% {
+    background-position: 50% 50%;
+  }
+  25% {
+    background-position: 30% 70%;
+  }
+  50% {
+    background-position: 70% 30%;
+  }
+  75% {
+    background-position: 40% 60%;
+  }
+  100% {
+    background-position: 50% 50%;
+  }
+}
+
+.shine-bg {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
+  );
+  animation: liquids 15s infinite ease-in-out;
 }

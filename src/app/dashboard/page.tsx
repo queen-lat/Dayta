@@ -1,62 +1,80 @@
-import Image from "next/image";
+import DataCard from "../components/DataCard";
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-      {/* Main content */}
-      <main className="flex flex-col items-center w-full px-4 py-10">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-gray-900">
-          Affordable Data Bundle
-        </h2>
-
-        {/* Info text */}
-        <div className="flex flex-col md:flex-row text-sm text-gray-700 space-y-2 md:space-y-0 md:space-x-10 mt-2 mb-8 text-center">
-          <p>📌 Buy affordable data bundle on MTN and AirtelTigo</p>
-          <p>Recipient number shouldn’t owe Airtime</p>
-          <p>Doesn’t work for Turbonet SIM</p>
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-black dark:to-neutral-900">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/20 dark:bg-fuchsia-950/10 border-b border-neutral-200/50 dark:border-neutral-800">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <h1 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white">
+              Dayta
+            </h1>
+          </div>
         </div>
+      </nav>
 
-        {/* Airtime section */}
-        <div className="w-full flex flex-col items-center mb-10">
-          <h3 className="font-semibold text-lg mb-4 text-gray-800">AIRTIME</h3>
-          <Image
-            src="/airtime-logos.png"
-            alt="Airtime Logos"
-            width={200}
-            height={200}
-            className="rounded-xl"
-          />
-        </div>
-
-        {/* Data bundle section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 text-center">
-          <div>
-            <Image
-              src="/mtn.svg"
-              alt="MTN"
-              width={250}
-              height={250}
-              className="mx-auto rounded-xl"
-            />
-            <p className="mt-2 font-medium text-gray-700">MTN</p>
+      {/* Hero Section */}
+      <main className="pt-32 pb-20 px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-5 max-w-3xl mx-auto">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-neutral-900 dark:text-white mb-6 leading-none">
+              Affordable
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500">
+                Data Bundles
+              </span>
+            </h2>
+            <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              Purchase data for MTN, AirtelTigo, and Telecel with instant
+              delivery
+            </p>
           </div>
 
-          <div>
-            <Image
-              src="/airteltigo.png"
-              alt="AirtelTigo"
-              width={250}
-              height={250}
-              className="mx-auto rounded-xl"
+          {/* Info Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">
+                ✓ Instant Activation
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">
+                ⚡ No Airtime Debt Required
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">
+                📱 Not for Turbonet SIM
+              </span>
+            </div>
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <DataCard Name="MTN" Link="/dashboard/mtn-retail" />
+            <DataCard
+              Name="AirtelTigo"
+              Link="/dashboard/AT-retail"
+              Image="/at.png"
             />
-            <p className="mt-2 font-medium text-gray-700">AirtelTigo</p>
+            <DataCard
+              Name="Telecel"
+              Link="/dashboard/telecel-retail"
+              Image="/tele.png"
+            />
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="mt-10 text-center text-gray-500 text-sm pb-6">
-        Copyright © 2025 Dayta.com
+      <footer className="border-t border-neutral-200 dark:border-neutral-800 mt-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+          <p className="text-center text-sm text-neutral-500 dark:text-neutral-500">
+            © 2025 Dayta. All rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   );
