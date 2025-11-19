@@ -1,135 +1,106 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      alert("Please enter email and password");
-      return;
-    }
-    router.push("/dashboard"); // redirect to dashboard
-  };
-
-  const handleSocialLogin = (provider: string) => {
-    console.log(`Login with ${provider}`);
-    router.push("/dashboard");
-  };
-
   return (
-    <main className="flex min-h-screen bg-gradient-to-r from-purple-100 to-white items-center justify-center">
-      <div className="flex w-full max-w-5xl bg-white rounded-3xl shadow-lg overflow-hidden">
-        {/* Left side illustration */}
-        <div className="hidden md:flex w-1/2 bg-purple-100 items-center justify-center p-8">
-          <Image
-            src="/illustration.svg"
-            alt="Login Illustration"
-            width={500}
-            height={500}
-            className="object-contain"
-            priority
-          />
+    <div className="w-full h-screen flex items-center justify-center bg-[#f6f6f6]">
+      <div className="w-[90%] h-[90%] bg-white rounded-3xl shadow-lg overflow-hidden flex">
+        {/* LEFT PURPLE SECTION */}
+        <div
+          className="w-[35%] h-full relative flex items-center"
+          style={{ background: "#CCA8D2" }}
+        >
+          <div className="absolute right-[-120px]">
+            <Image
+              src="/illustration.svg"
+              width={480}
+              height={480}
+              alt="Illustration"
+              className="object-contain"
+            />
+          </div>
         </div>
 
-        {/* Right side login form */}
-        <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
-          {/* Logo */}
-          <div className="flex items-center mb-8">
-            <Image
-              src="/dayta-logo.png"
-              alt="Dayta logo"
-              width={45}
-              height={45}
-            />
-            <span className="ml-2 text-xl font-semibold text-gray-800">
-              Dayta
-            </span>
-          </div>
+        {/* RIGHT WHITE SECTION */}
+        <div className="w-[65%] h-full px-20 py-12 flex flex-col justify-center items-center">
+          <div className="w-full max-w-[380px]">
+            {/* Dayta Logo */}
+            <div className="flex items-center gap-3 mb-10">
+              <Image
+                src="/dayta-logo.png"
+                width={45}
+                height={45}
+                alt="Dayta Logo"
+              />
+              <h1 className="text-3xl font-semibold">Dayta</h1>
+            </div>
 
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Login to your Account
-          </h2>
+            {/* Heading */}
+            <h2 className="text-2xl font-semibold mb-8">
+              Login to your Account
+            </h2>
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div>
+            {/* EMAIL INPUT */}
+            <div className="mb-5">
               <input
                 type="email"
                 placeholder="Email"
-                className="w-full border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                className="w-full border border-gray-400 rounded-xl px-4 py-3 bg-transparent outline-none"
               />
             </div>
 
-            <div className="relative">
+            {/* PASSWORD INPUT */}
+            <div className="mb-5">
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                className="w-full border border-gray-400 rounded-xl px-4 py-3 bg-transparent outline-none"
               />
-              <a
-                href="#"
-                className="absolute right-3 top-3 text-sm text-gray-500 hover:text-purple-600"
-              >
+              <span className="text-right text-sm text-gray-600 mt-2 block cursor-pointer">
                 Forgot password?
-              </a>
+              </span>
             </div>
 
+            {/* LOGIN BUTTON */}
             <button
-              type="submit"
-              className="w-full bg-purple-700 text-white py-3 rounded-full font-medium hover:bg-purple-800 transition"
+              className="w-full py-3 rounded-full text-white font-medium mb-5"
+              style={{ backgroundColor: "#61126F" }}
             >
               Log in
             </button>
-          </form>
 
-          {/* OR separator */}
-          <div className="flex items-center my-6">
-            <div className="flex-1 h-px bg-gray-300" />
-            <span className="px-3 text-sm text-gray-500">OR</span>
-            <div className="flex-1 h-px bg-gray-300" />
-          </div>
+            {/* DIVIDER */}
+            <div className="flex items-center gap-4 my-4">
+              <span className="flex-1 h-[1px] bg-gray-300"></span>
+              <span className="text-gray-600 text-sm">OR</span>
+              <span className="flex-1 h-[1px] bg-gray-300"></span>
+            </div>
 
-          {/* Social login buttons */}
-          <div className="space-y-3">
-            <button
-              onClick={() => handleSocialLogin("Google")}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-md py-3 hover:bg-gray-50 transition"
-            >
-              <Image src="/google.svg" alt="Google" width={20} height={20} />
-              <span className="text-sm font-medium text-gray-700">
-                Continue with Google
-              </span>
+            {/* GOOGLE BUTTON */}
+            <button className="w-full border border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 bg-white mb-4">
+              <Image
+                src="/google.svg"
+                width={22}
+                height={22}
+                alt="Google Logo"
+              />
+              <span>Continue with Google</span>
             </button>
 
-            <button
-              onClick={() => handleSocialLogin("Facebook")}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-md py-3 hover:bg-gray-50 transition"
-            >
+            {/* FACEBOOK BUTTON */}
+            <button className="w-full border border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 bg-white">
               <Image
                 src="/facebook.svg"
-                alt="Facebook"
-                width={20}
-                height={20}
+                width={22}
+                height={22}
+                alt="Facebook Logo"
               />
-              <span className="text-sm font-medium text-gray-700">
-                Continue with Facebook
-              </span>
+              <span>Continue with Facebook</span>
             </button>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
