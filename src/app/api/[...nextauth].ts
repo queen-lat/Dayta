@@ -25,7 +25,6 @@ export default NextAuth({
     //   return baseUrl;
     // },
     async session({ session, token }) {
-      // ✅ Check if session.user exists before assigning
       if (session.user) {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
