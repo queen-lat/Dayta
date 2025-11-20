@@ -1,17 +1,17 @@
 "use client";
-
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 
 export default function LoginPage() {
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-[#f6f6f6]">
-      <div className="w-[90%] h-[90%] bg-white rounded-3xl shadow-lg overflow-hidden flex">
+    <div className="w-full h-screen flex items-center justify-center bg-[#fafafa] dark:bg-gray-950">
+      <div
+        className="w-[90%] h-[90%] bg-white
+       dark:bg-gray-900 rounded-3xl shadow-lg overflow-hidden flex"
+      >
         {/* LEFT PURPLE SECTION */}
-        <div
-          className="w-[35%] h-full relative flex items-center"
-          style={{ background: "#CCA8D2" }}
-        >
-          <div className="absolute right-[-120px]">
+        <div className="w-[35%] h-full relative items-center hidden md:block bg-[#CCA8D2]">
+          <div className="absolute right-[-120px]  ">
             <Image
               src="/illustration.svg"
               width={480}
@@ -23,34 +23,34 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT WHITE SECTION */}
-        <div className="w-[65%] h-full px-20 py-12 flex flex-col justify-center items-center">
+        <div className="w-full md:w-[65%] h-full  px-3 md:px-20 py-3 md:py-12 flex flex-col justify-between items-center ">
           <div className="w-full max-w-[380px]">
             {/* Dayta Logo */}
-            <div className="flex items-center gap-3 mb-10">
+            <div className="flex items-center gap-3 mb-10 justify-center">
               <Image
                 src="/dayta-logo.png"
                 width={45}
                 height={45}
                 alt="Dayta Logo"
               />
-              <h1 className="text-3xl font-semibold">Dayta</h1>
+              <h1 className="text-3xl font-semibold text-black  dark:text-white">
+                Dayta
+              </h1>
             </div>
 
             {/* Heading */}
-            <h2 className="text-2xl font-semibold mb-8">
-              Login to your Account
-            </h2>
+            <h2 className="text-2xl  mb-8 font-serif">Login to your Account</h2>
 
             {/* EMAIL INPUT */}
-            <div className="mb-5">
+            {/* <div className="mb-5">
               <input
                 type="email"
                 placeholder="Email"
                 className="w-full border border-gray-400 rounded-xl px-4 py-3 bg-transparent outline-none"
               />
-            </div>
+            </div> */}
 
-            {/* PASSWORD INPUT */}
+            {/* PASSWORD INPUT
             <div className="mb-5">
               <input
                 type="password"
@@ -60,15 +60,15 @@ export default function LoginPage() {
               <span className="text-right text-sm text-gray-600 mt-2 block cursor-pointer">
                 Forgot password?
               </span>
-            </div>
+            </div> */}
 
             {/* LOGIN BUTTON */}
-            <button
+            {/* <button
               className="w-full py-3 rounded-full text-white font-medium mb-5"
               style={{ backgroundColor: "#61126F" }}
             >
               Log in
-            </button>
+            </button> */}
 
             {/* DIVIDER */}
             <div className="flex items-center gap-4 my-4">
@@ -78,14 +78,23 @@ export default function LoginPage() {
             </div>
 
             {/* GOOGLE BUTTON */}
-            <button className="w-full border border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 bg-white mb-4">
+            <button
+              className="w-full border border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 bg-white mb-4 "
+              onClick={() => {
+                signIn("google", {
+                  callbackUrl: `${window.location.origin}/dashboard`,
+                });
+              }}
+            >
               <Image
                 src="/google.svg"
                 width={22}
                 height={22}
                 alt="Google Logo"
               />
-              <span>Continue with Google</span>
+              <span className="text-white dark:text-black">
+                Continue with Google
+              </span>
             </button>
 
             {/* FACEBOOK BUTTON */}
@@ -96,7 +105,9 @@ export default function LoginPage() {
                 height={22}
                 alt="Facebook Logo"
               />
-              <span>Continue with Facebook</span>
+              <span className="text-white dark:text-black">
+                Continue with Facebook
+              </span>
             </button>
           </div>
         </div>

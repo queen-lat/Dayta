@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export default NextAuth({
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -18,12 +18,11 @@ export default NextAuth({
     maxAge: 30 * 24 * 60 * 60,
   },
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) {
-    //   return true;
-    // },
-    // async redirect({ url, baseUrl }) {
-    //   return baseUrl;
-    // },
+    async redirect({ url, baseUrl }) {
+      // Allow callback to same origin or default to dashboard
+      if (url && url.startsWith(baseUrl)) return url;
+      return `${baseUrl}/dashboard`;
+    },
     async session({ session, token }) {
       if (session.user) {
         session.user.email = token.email as string;
@@ -42,3 +41,5 @@ export default NextAuth({
     },
   },
 });
+
+export { handler as GET, handler as POST };
