@@ -2,18 +2,7 @@ import DataCard from "../components/DataCard";
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-black dark:to-neutral-900">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/20 dark:bg-fuchsia-950/10 border-b border-neutral-200/50 dark:border-neutral-800">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <h1 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white">
-              Dayta
-            </h1>
-          </div>
-        </div>
-      </nav>
-
+    <div className="min-h-screen bg-white dark:bg-[#222222]">
       {/* Hero Section */}
       <main className="pt-32 pb-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
