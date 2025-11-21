@@ -3,74 +3,74 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 interface DataBundle {
   id: string;
-  size: string;
+  size: string; // backend expects this as 'volume'
   price: number;
+  label: string; // e.g. '1GB'
 }
 
 const dataBundles: DataBundle[] = [
-  { id: "1", size: "1GB", price: 4 },
-  { id: "2", size: "2GB", price: 8 },
-  { id: "3", size: "3GB", price: 11 },
-  { id: "4", size: "5GB", price: 18 },
-  { id: "5", size: "10GB", price: 35 },
-  { id: "6", size: "20GB", price: 65 },
-  { id: "7", size: "50GB", price: 150 },
+  { id: "1", size: "1000", price: 4, label: "1GB" },
+  { id: "2", size: "2000", price: 8, label: "2GB" },
+  { id: "3", size: "3000", price: 11, label: "3GB" },
+  { id: "4", size: "5000", price: 18, label: "5GB" },
+  { id: "5", size: "10000", price: 35, label: "10GB" },
+  { id: "6", size: "20000", price: 65, label: "20GB" },
+  { id: "7", size: "50000", price: 150, label: "50GB" },
 ];
 
 export default function ATRetailPage() {
   const [selectedBundle, setSelectedBundle] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState<any>(null);
+  const [modalType, setModalType] = useState<"success" | "error">("success");
+  const { data: session } = useSession();
+
+  const selectedBundleData = dataBundles.find((b) => b.id === selectedBundle);
 
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      console.log("JWT sent to backend:", session?.user?.accessToken);
+      const res = await axios.post(
+        "http://localhost:8080/buy",
+        {
+          phone: phoneNumber,
+          volume: selectedBundleData?.size,
+          network: "at",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session?.user.accessToken}`,
+          },
+        }
+      );
 
-    setIsProcessing(false);
-    // Handle purchase logic here
+      // Handle success
+      setModalType("success");
+      setModalData(res.data);
+      setShowModal(true);
+    } catch (error: any) {
+      // Handle error
+      setModalType("error");
+      setModalData(error.response?.data || error.message);
+      setShowModal(true);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const selectedBundleData = dataBundles.find((b) => b.id === selectedBundle);
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-black dark:to-neutral-900">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-black/80 border-b border-neutral-200/50 dark:border-neutral-800/50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-              <span className="text-sm font-medium">Back</span>
-            </Link>
-            <h1 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white">
-              Dayta
-            </h1>
-            <div className="w-20" /> {/* Spacer for center alignment */}
-          </div>
-        </div>
-      </nav>
-
+    <div className="min-h-screen bg-white dark:bg-[#222222]">
       {/* Main Content */}
       <main className="pt-32 pb-20 px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
@@ -118,7 +118,7 @@ export default function ATRetailPage() {
                   </option>
                   {dataBundles.map((bundle) => (
                     <option key={bundle.id} value={bundle.id}>
-                      {bundle.size} - GH₵{bundle.price}
+                      {bundle.label} - GH₵{bundle.price}
                     </option>
                   ))}
                 </select>
@@ -168,7 +168,7 @@ export default function ATRetailPage() {
                       Bundle
                     </span>
                     <span className="text-lg font-bold text-neutral-900 dark:text-white">
-                      {selectedBundleData.size}
+                      {selectedBundleData.label} ({selectedBundleData.size}MB)
                     </span>
                   </div>
                   <div className="pt-3 border-t border-fuchsia-200 dark:border-fuchsia-800/30">
@@ -263,6 +263,90 @@ export default function ATRetailPage() {
           </div>
         </div>
       </main>
+
+      {/* Response Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div
+              className={`px-6 py-4 ${
+                modalType === "success"
+                  ? "bg-green-50 dark:bg-green-950/20"
+                  : "bg-red-50 dark:bg-red-950/20"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    modalType === "success"
+                      ? "bg-green-100 dark:bg-green-900/30"
+                      : "bg-red-100 dark:bg-red-900/30"
+                  }`}
+                >
+                  {modalType === "success" ? (
+                    <svg
+                      className="w-5 h-5 text-green-600 dark:text-green-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-5 h-5 text-red-600 dark:text-red-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <h3
+                  className={`text-lg font-semibold ${
+                    modalType === "success"
+                      ? "text-green-900 dark:text-green-100"
+                      : "text-red-900 dark:text-red-100"
+                  }`}
+                >
+                  {modalType === "success"
+                    ? "Purchase Successful!"
+                    : "Purchase Failed"}
+                </h3>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="px-6 py-4 max-h-96 overflow-y-auto">
+              <pre className="text-sm text-neutral-700 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-800 p-4 rounded-xl overflow-x-auto">
+                {JSON.stringify(modalData, null, 2)}
+              </pre>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 bg-neutral-50 dark:bg-neutral-800/50 border-t border-neutral-200 dark:border-neutral-800">
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-full py-2.5 px-4 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 rounded-xl font-medium hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

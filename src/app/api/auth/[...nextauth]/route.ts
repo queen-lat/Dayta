@@ -1,3 +1,20 @@
+import "next-auth";
+import jwt from "jsonwebtoken";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      accessToken?: string;
+    };
+  }
+  interface JWT {
+    accessToken?: string;
+  }
+}
+
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -19,7 +36,6 @@ const handler = NextAuth({
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      // Allow callback to same origin or default to dashboard
       if (url && url.startsWith(baseUrl)) return url;
       return `${baseUrl}/dashboard`;
     },
@@ -28,11 +44,20 @@ const handler = NextAuth({
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.image = token.picture as string;
+        session.user.accessToken = jwt.sign(
+          {
+            email: token.email,
+            name: token.name,
+            picture: token.picture,
+          },
+          process.env.AUTH_SECRET!,
+          { algorithm: "HS256", expiresIn: "30d" }
+        );
       }
       return session;
     },
-    async jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, account }) {
+      if (account && user) {
         token.email = user.email;
         token.name = user.name;
         token.picture = user.image;
