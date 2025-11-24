@@ -6,12 +6,38 @@ export default function LoginPage() {
   return (
     <div className="w-full h-screen flex items-center justify-center bg-[#fafafa] dark:bg-gray-950">
       <div
-        className="w-[90%] h-[90%] bg-white
-       dark:bg-gray-900 rounded-3xl shadow-lg overflow-hidden flex"
+        className="w-[90%] h-[90%] bg-white dark:bg-gray-900 
+        rounded-3xl shadow-xl overflow-hidden flex relative"
       >
+        {/* DECORATIVE BACKGROUND ELEMENTS */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Soft blurred circle */}
+          <div
+            className="absolute top-10 left-10 w-40 h-40 bg-purple-300 
+          opacity-40 blur-3xl rounded-full"
+          ></div>
+
+          {/* Cyan glow */}
+          <div
+            className="absolute bottom-10 right-20 w-32 h-32 
+          bg-blue-300 opacity-30 blur-2xl rounded-full"
+          ></div>
+        </div>
+
         {/* LEFT PURPLE SECTION */}
-        <div className="w-[35%] h-full relative items-center hidden md:block bg-[#CCA8D2]">
-          <div className="absolute right-[-120px]  ">
+        <div className="w-[35%] h-full relative hidden md:block bg-[#CCA8D2]">
+          {/* PARTICLE EFFECTS */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* particle dots */}
+            <div className="absolute w-2 h-2 bg-white rounded-full opacity-40 top-10 left-16 blur-[2px]"></div>
+            <div className="absolute w-1 h-1 bg-white rounded-full opacity-30 top-32 left-40 blur-[1px]"></div>
+            <div className="absolute w-2 h-2 bg-white rounded-full opacity-50 top-64 left-24 blur-[2px]"></div>
+            <div className="absolute w-1.5 h-1.5 bg-white rounded-full opacity-40 top-80 left-10 blur-[2px]"></div>
+            <div className="absolute w-2 h-2 bg-white rounded-full opacity-40 top-52 left-56 blur-[2px]"></div>
+          </div>
+
+          {/* Illustration */}
+          <div className="absolute right-[-120px] top-1/2 -translate-y-1/2">
             <Image
               src="/illustration.svg"
               width={480}
@@ -22,10 +48,13 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* RIGHT WHITE SECTION */}
-        <div className="w-full md:w-[65%] h-full  px-3 md:px-20 py-3 md:py-12 flex flex-col justify-between items-center ">
-          <div className="w-full max-w-[380px]">
-            {/* Dayta Logo */}
+        {/* RIGHT LOGIN SECTION */}
+        <div
+          className="w-full md:w-[65%] h-full px-3 md:px-20 py-3 md:py-12 
+        flex flex-col justify-center items-center relative z-10"
+        >
+          <div className="w-full max-w-[380px] text-center">
+            {/* Logo */}
             <div className="flex items-center gap-3 mb-10 justify-center">
               <Image
                 src="/dayta-logo.png"
@@ -33,79 +62,53 @@ export default function LoginPage() {
                 height={45}
                 alt="Dayta Logo"
               />
-              <h1 className="text-3xl font-semibold text-black  dark:text-white">
+              <h1 className="text-3xl font-semibold text-black dark:text-white">
                 Dayta
               </h1>
             </div>
 
             {/* Heading */}
-            <h2 className="text-2xl  mb-8 font-serif">Login to your Account</h2>
-
-            {/* EMAIL INPUT */}
-            {/* <div className="mb-5">
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full border border-gray-400 rounded-xl px-4 py-3 bg-transparent outline-none"
-              />
-            </div> */}
-
-            {/* PASSWORD INPUT
-            <div className="mb-5">
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full border border-gray-400 rounded-xl px-4 py-3 bg-transparent outline-none"
-              />
-              <span className="text-right text-sm text-gray-600 mt-2 block cursor-pointer">
-                Forgot password?
-              </span>
-            </div> */}
-
-            {/* LOGIN BUTTON */}
-            {/* <button
-              className="w-full py-3 rounded-full text-white font-medium mb-5"
-              style={{ backgroundColor: "#61126F" }}
-            >
-              Log in
-            </button> */}
-
-            {/* DIVIDER */}
-            <div className="flex items-center gap-4 my-4">
-              <span className="flex-1 h-[1px] bg-gray-300"></span>
-              <span className="text-gray-600 text-sm">OR</span>
-              <span className="flex-1 h-[1px] bg-gray-300"></span>
-            </div>
+            <h2 className="text-2xl mb-10 font-serif text-black dark:text-white">
+              Login to your Account
+            </h2>
 
             {/* GOOGLE BUTTON */}
             <button
-              className="w-full border border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 bg-white mb-4 "
-              onClick={() => {
+              onClick={() =>
                 signIn("google", {
                   callbackUrl: `${window.location.origin}/dashboard`,
-                });
-              }}
+                })
+              }
+              className="w-full border border-gray-300 py-3 rounded-xl 
+              flex items-center justify-center gap-3 bg-white dark:bg-gray-800 
+              shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
+              transition-all mb-4"
             >
-              <Image
-                src="/google.svg"
-                width={22}
-                height={22}
-                alt="Google Logo"
-              />
-              <span className="text-white dark:text-black">
+              <Image src="/google.svg" width={22} height={22} alt="Google" />
+              <span className="text-black dark:text-white">
                 Continue with Google
               </span>
             </button>
 
             {/* FACEBOOK BUTTON */}
-            <button className="w-full border border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 bg-white">
+            <button
+              onClick={() =>
+                signIn("facebook", {
+                  callbackUrl: `${window.location.origin}/dashboard`,
+                })
+              }
+              className="w-full border border-gray-300 py-3 rounded-xl 
+              flex items-center justify-center gap-3 bg-white dark:bg-gray-800 
+              shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] 
+              transition-all"
+            >
               <Image
                 src="/facebook.svg"
                 width={22}
                 height={22}
-                alt="Facebook Logo"
+                alt="Facebook"
               />
-              <span className="text-white dark:text-black">
+              <span className="text-black dark:text-white">
                 Continue with Facebook
               </span>
             </button>
