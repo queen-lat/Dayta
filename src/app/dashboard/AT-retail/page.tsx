@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
@@ -8,9 +8,9 @@ import { useSession } from "next-auth/react";
 
 interface DataBundle {
   id: string;
-  size: string; // backend expects this as 'volume'
+  size: string;
   price: number;
-  label: string; // e.g. '1GB'
+  label: string;
 }
 
 const dataBundles: DataBundle[] = [
@@ -41,11 +41,13 @@ export default function ATRetailPage() {
     try {
       console.log("JWT sent to backend:", session?.user?.accessToken);
       const res = await axios.post(
-        "http://localhost:8080/buy",
+        "http://localhost:8080/buy/",
         {
           phone: phoneNumber,
           volume: selectedBundleData?.size,
           network: "at",
+          amount: selectedBundleData?.price,
+          email: session?.user?.email,
         },
         {
           headers: {
@@ -54,13 +56,23 @@ export default function ATRetailPage() {
           },
         }
       );
-
-      // Handle success
-      setModalType("success");
-      setModalData(res.data);
-      setShowModal(true);
+      console.log("Response from backend:", res.data);
+      if (res.data.payment_url) {
+        window.location.href = res.data.payment_url;
+      } else {
+        if (res.data.status === "success") {
+          setModalType("success");
+          setModalData(res.data);
+          setShowModal(true);
+        } else {
+          setModalType("error");
+          setModalData(
+            "Purchase failed. Please contact support on support@gmail.com."
+          );
+          setShowModal(true);
+        }
+      }
     } catch (error: any) {
-      // Handle error
       setModalType("error");
       setModalData(error.response?.data || error.message);
       setShowModal(true);
@@ -68,6 +80,73 @@ export default function ATRetailPage() {
       setIsProcessing(false);
     }
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const reference = params.get("reference");
+    if (!reference) return;
+
+    setIsProcessing(true);
+    let polling = true;
+
+    const poll = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8080/buy/order_status?reference=${reference}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${session?.user.accessToken}`,
+            },
+          }
+        );
+        if (res.data.details.error) {
+          const errobj = JSON.parse(res.data.details.error);
+          console.error("Error details:", errobj);
+          if (errobj.status.includes("failed")) {
+            setTimeout(() => {
+              setModalType("error");
+              setModalData(
+                res.data.message ||
+                  "Purchase failed. Please contact support on support@gmail.com."
+              );
+              setShowModal(true);
+              setIsProcessing(false);
+              polling = false;
+            }, 3000);
+          }
+        } else {
+          setTimeout(() => {
+            setModalType("success");
+            setModalData(
+              "Purchase successful!, Your account has been credited. On a bad day data can take up to 2 hours to reflect, contact us after 24 hours if not received."
+            );
+            setShowModal(true);
+            setIsProcessing(false);
+            polling = false;
+          }, 3000);
+        }
+      } catch (err: any) {
+        setTimeout(() => {
+          setModalType("error");
+          setModalData(
+            err.response?.data?.message ||
+              "Error checking order status. Please try again."
+          );
+          setShowModal(true);
+          setIsProcessing(false);
+          polling = false;
+        }, 3000); // Add a 3-second delay before updating the UI
+      }
+    };
+
+    poll();
+    const interval = setInterval(() => {
+      if (polling) poll();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#222222]">
