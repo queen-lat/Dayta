@@ -45,7 +45,7 @@ export default function ATRetailPage() {
         {
           phone: phoneNumber,
           volume: selectedBundleData?.size,
-          network: "AT_PREMIUM",
+          network: "YELLO",
           amount: selectedBundleData?.price,
           email: session?.user?.email,
         },
@@ -155,17 +155,17 @@ export default function ATRetailPage() {
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 shadow-lg shadow-orange-500/20">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 shadow-lg shadow-yellow-500/20">
               <Image
-                src="/at.png"
+                src="/mtnl.jpg"
                 width={60}
                 height={60}
-                alt="AirtelTigo"
+                alt="MTN"
                 className="rounded-2xl"
               />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
-              AirtelTigo Data
+              MTN Data
             </h2>
             <p className="text-lg text-neutral-600 dark:text-neutral-400">
               Choose your bundle and complete your purchase
@@ -184,7 +184,7 @@ export default function ATRetailPage() {
                   value={selectedBundle}
                   onChange={(e) => setSelectedBundle(e.target.value)}
                   required
-                  className="w-full px-4 py-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl text-neutral-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+                  className="w-full px-4 py-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl text-neutral-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all appearance-none cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                     backgroundRepeat: "no-repeat",
@@ -228,20 +228,20 @@ export default function ATRetailPage() {
                     type="tel"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="e.g., 0271234567"
+                    placeholder="e.g., 0531234567"
                     pattern="[0-9]{10}"
                     required
-                    className="w-full pl-12 pr-4 py-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
-                  Enter 10-digit AirtelTigo number
+                  Enter 10-digit MTN number
                 </p>
               </div>
 
               {/* Summary Card */}
               {selectedBundleData && (
-                <div className="mb-6 p-6 bg-gradient-to-br from-fuchsia-50 to-pink-50 dark:from-fuchsia-950/20 dark:to-pink-950/20 rounded-2xl border border-fuchsia-200 dark:border-fuchsia-800/30">
+                <div className="mb-6 p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950/20 dark:to-yellow-950/20 rounded-2xl border border-yellow-200 dark:border-yellow-800/30">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
                       Bundle
@@ -250,12 +250,12 @@ export default function ATRetailPage() {
                       {selectedBundleData.label} ({selectedBundleData.size}MB)
                     </span>
                   </div>
-                  <div className="pt-3 border-t border-fuchsia-200 dark:border-fuchsia-800/30">
+                  <div className="pt-3 border-t border-yellow-200 dark:border-yellow-800/30">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
                         Total Amount
                       </span>
-                      <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-pink-600">
+                      <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-500">
                         GH₵{selectedBundleData.price}
                       </span>
                     </div>
@@ -267,7 +267,7 @@ export default function ATRetailPage() {
               <button
                 type="submit"
                 disabled={isProcessing || !selectedBundle || !phoneNumber}
-                className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 text-white font-semibold text-base transition-all duration-300 hover:shadow-lg hover:shadow-fuchsia-500/50 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100"
+                className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-yellow-600 via-amber-500 to-yellow-500 text-white font-semibold text-base transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/50 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100"
               >
                 {isProcessing ? (
                   <span className="flex items-center justify-center gap-2">
@@ -332,9 +332,12 @@ export default function ATRetailPage() {
                 <div className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                   <p className="font-semibold mb-1">Important Notes:</p>
                   <ul className="space-y-1 list-disc list-inside">
-                    <li>Bundle activates instantly after payment</li>
-                    <li>Recipient number must not owe airtime</li>
-                    <li>Not valid for Turbonet SIM cards</li>
+                    <li>
+                      MTN Bundle can take some time to activate, contact support
+                      24hours after payment with proof to request a refund.
+                    </li>
+
+                    <li>Not valid for Turbonet SIM cards.</li>
                   </ul>
                 </div>
               </div>

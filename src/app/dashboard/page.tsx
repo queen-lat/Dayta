@@ -50,15 +50,15 @@ export default function DashboardPage() {
             />
             <DataCard
               Name="MTN"
-              Link="/dashboard/mtn-retail"
-              available={false}
+              Link="/dashboard/MTN-retail"
+              available={true}
             />
 
             <DataCard
               Name="Telecel"
-              Link="/dashboard/telecel-retail"
+              Link="/dashboard/TELECEL-retail"
               Image="/tele.png"
-              available={false}
+              available={true}
             />
           </div>
         </div>
